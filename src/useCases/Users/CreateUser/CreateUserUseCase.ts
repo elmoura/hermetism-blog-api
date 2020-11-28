@@ -1,33 +1,20 @@
-import { MongoRepository } from 'typeorm';
-import { hash } from 'bcrypt';
-
-import { User } from '../../../entities/User';
-import { BadRequestError } from '../../../shared/errors/BadRequestError';
+import { User } from '../../../models/User';
+import { AppError } from '../../../shared/errors/AppError';
 
 import { CreateUserDTO } from "./CreateUserDTO";
 
 export class CreateUserUseCase {
-  constructor(
-    private userRepository: MongoRepository<User>
-  ) { }
-
   async execute(userPayload: CreateUserDTO) {
-    const userAlreadyExists = await this.userRepository.findOne({ email: userPayload.email });
+    const userAlreadyExists = await User.findOne({ email: userPayload.email });
 
     if (userAlreadyExists) {
-      throw new BadRequestError('Hmmm, parece que já existe um usuário com esse e-mail');
+      throw new AppError('Hmmm, parece que já existe um usuário com esse e-mail');
     }
 
-    const hashedPassword = await hash(userPayload.password, 10);
+    const user = new User(userPayload);
 
-    userPayload.password = hashedPassword;
+    const createdUser = await user.save();
 
-    const user = this.userRepository.create(userPayload);
-
-    await this.userRepository.save(user);
-
-    delete user.password;
-
-    return user;
+    return createdUser;
   }
 }

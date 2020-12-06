@@ -1,6 +1,7 @@
-import './database/connection';
 import express from 'express';
 import 'express-async-errors';
+import './database/connection';
+import './database/googleCloudStorage';
 
 import { errorHandler } from './shared/middlewares/errorHandler';
 import { routes } from './routes';

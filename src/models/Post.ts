@@ -5,6 +5,10 @@ const PostSchema = new Schema({
     type: String,
     required: true
   },
+  url: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -17,11 +21,18 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
-  images: {
+  tags: {
     type: Array
-  }
+  },
+  images: [{
+    image_id: Schema.Types.ObjectId,
+    url: String,
+    fileName: String,
+    key: String,
+    size: Number,
+  }]
 }, { timestamps: true });
 
 const Post = model('Post', PostSchema);
 
-export { Post };
+export { Post, PostSchema };

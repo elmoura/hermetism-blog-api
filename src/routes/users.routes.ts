@@ -8,11 +8,11 @@ import { updateUserController } from '../useCases/Users/UpdateUser';
 const usersRoutes = Router();
 
 usersRoutes.post('/',
-    async (request, response) => createUserController.handle(request, response)
+  async (request, response) => createUserController.handle(request, response)
 );
 
 usersRoutes.put('/:_id', validateObjectId,
-    async (request, response) => updateUserController.handle(request, response)
+  async (request, response) => updateUserController.handle(request, response)
 );
 
 export { usersRoutes };

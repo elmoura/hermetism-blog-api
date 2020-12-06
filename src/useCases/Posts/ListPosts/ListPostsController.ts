@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 
-import { IPost } from '../../../DTOs/IPost';
 import { ListPostsUseCase } from "./ListPostsUseCase";
 
 export class ListPostsController {
@@ -8,7 +7,7 @@ export class ListPostsController {
     private listPostsUseCase: ListPostsUseCase
   ) { }
 
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { limit, offset, tags } = request.query;
 
     const posts = await this.listPostsUseCase.execute(
